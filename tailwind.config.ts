@@ -8,11 +8,10 @@ const config = {
     themes: [
       {
         mytheme: {
-          primary: '#f92053',
-          secondary: '#afffc1',
-          accent: '#0d52e5',
-          neutral: '#253341',
-          'base-100': '#2d4562',
+          primary: 'hsl(164,32%,60%)',
+          secondary: 'hsl(37,80%,84%)',
+          neutral: 'hsl(355,57%,64%)',
+          'base-100': 'white',
           info: '#4a85d9',
           success: '#269c6d',
           warning: '#c2690a',
@@ -24,6 +23,6 @@ const config = {
       'cupcake',
     ],
   },
-  plugins: [require('daisyui')],
+  plugins: [require('daisyui'), require('tailwind-scrollbar')],
 } satisfies Config
 export default config
