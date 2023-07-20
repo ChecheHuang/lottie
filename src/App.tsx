@@ -1,64 +1,91 @@
-import React, { FC } from 'react'
-import logo from '@/assets/images/logo1.png'
+import React, { useState } from 'react'
+import 'react-lazy-load-image-component/src/effects/blur.css'
+import { ToastContainer } from 'react-toastify'
+import SetPrize from './components/Set/SetPrize'
+import SetLotteryList from './components/Set/SetLotteryList'
+import Header from './components/Header/Header'
+import ConfirmModal from './components/modals/ConfirmModal'
+
+export interface PrizeType {
+  id: string
+  prize: string
+  img: string
+  quantity: string
+}
+interface LotteryDefaultType {
+  id: string
+}
+export interface LotteryType extends LotteryDefaultType {
+  [key: string]: any
+}
+
+const initPrizes = [
+  {
+    id: '62934d0c-2218-488c-9a01-0f5052cff0c0',
+    prize: '大獎',
+    quantity: '3',
+    img: '/src/assets/images/defaultPrize.jpeg',
+  },
+  {
+    id: '6b89d654-717a-4940-9de9-f0706aabe414',
+    prize: '手機',
+    quantity: '5',
+    img: '/src/assets/images/defaultPrize.jpeg',
+  },
+]
 
 const App: React.FC = () => {
+  const [theme, setTheme] = useState('mytheme')
+  const [prizes, setPrizes] = useState<PrizeType[]>(initPrizes)
+  const [lotteryList, setLotteryList] = useState<LotteryType[]>([])
+  const [confirmOpen, setConfirmOpen] = useState(false)
+
+  // const [openLottery, setOpenLottery] = useState(false)
+  // const [peopleData, setPeopleData] = useState([])
+  // const [winnerList, setWinnerList] = useState([])
+
+  const handleEnterLottery = () => {
+    // console.log(JSON.stringify(prizes, null, 2))
+    console.log(JSON.stringify(lotteryList, null, 2))
+    setConfirmOpen(true)
+  }
   return (
-    <div className="h-screen w-screen" data-theme="mytheme">
-      <header className="bg-primary flex items-center  h-16 px-5 relative">
-        <img className="w-24 cursor-pointer" src={logo} alt="" />
-        <h1 className="text-white text-5xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  ">
-          陽信商店街抽獎活動
-        </h1>
-      </header>
-      <main className="mt-2">
-        <div className="flex justify-center">
-          <input
-            type="text"
-            placeholder="輸入活動名稱"
-            className="input input-primary "
-          />
+    <>
+      <div className="min-h-screen w-screen" data-theme={theme}>
+        <ConfirmModal
+          theme={theme}
+          isOpen={confirmOpen}
+          onClose={() => setConfirmOpen(false)}
+        />
+        <Header setTheme={setTheme} />
+        <main className="mt-10">
+          <div className="flex w-full items-center flex-col md:flex-row  justify-around mt-2 gap-4 px-3 ">
+            <SetPrize
+              addPrize={(data: PrizeType) =>
+                setPrizes((prev) => [data, ...prev])
+              }
+              removePrize={(id: string) =>
+                setPrizes((prev) =>
+                  [...prev].filter((prize) => prize.id !== id)
+                )
+              }
+              prizes={prizes}
+            />
+            <SetLotteryList setLotteryList={setLotteryList} />
+          </div>
+        </main>
+        <div className="w-full flex justify-center mt-3">
+          <button
+            className="btn btn-neutral rounded-3xl w-40 text-3xl font-medium text-white"
+            onClick={handleEnterLottery}
+          >
+            進入抽獎
+          </button>
         </div>
-        <div className="flex justify-around mt-2 gap-4 px-3 ">
-          <Item title="設定獎項" />
-          <Item title="加入抽獎名單" />
-        </div>
-      </main>
-    </div>
+      </div>
+      <ToastContainer />
+    </>
   )
 }
 
 export default App
-
-interface ItemProps {
-  title: string
-}
-
-const Item: FC<ItemProps> = ({ title }) => {
-  return (
-    <div className=" relative border-[12px] border-primary rounded-3xl w-1/2 h-[30vw] p-2  ">
-      <div className=" absolute -top-8  left-1/2 transform -translate-x-1/2  bg-primary text-white text-2xl rounded-full px-6 py-2 pointer-events-none ">
-        {title}
-      </div>
-      <div className="flex space-x-4 mt-4">
-        <input
-          type="text"
-          placeholder="獎品"
-          className="flex-1 input input-bordered input-secondary w-full "
-        />
-        <input
-          type="number"
-          placeholder="數量"
-          className="flex-1  input input-bordered input-secondary w-full "
-        />
-        <input id="imgFile" className="hidden" type="file" />
-        <label
-          htmlFor="imgFile"
-          className="flex-1  btn btn-primary font-thin text-white w-full "
-        >
-          上傳圖片
-        </label>
-        <button className="btn btn-secondary flex-1">加入獎項</button>
-      </div>
-    </div>
-  )
-}
