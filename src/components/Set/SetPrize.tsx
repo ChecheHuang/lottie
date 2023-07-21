@@ -50,8 +50,7 @@ const SetPrize: React.FC<SetPrizeProps> = ({
   }
 
   const total = useMemo(
-    () =>
-      prizes.reduce((prev, current) => prev + parseInt(current.quantity), 0),
+    () => prizes.reduce((prev, current) => prev + current.quantity, 0),
     [prizes]
   )
   return (
@@ -101,12 +100,15 @@ const SetPrize: React.FC<SetPrizeProps> = ({
             >
               <div>{prize}</div>
               <div>{quantity}</div>
-              <LazyLoadImage
-                alt=""
-                src={img}
-                placeholderSrc="/small.png"
-                effect="blur"
-              />
+              <div className="p-2 h-full overflow-hidden">
+                <LazyLoadImage
+                  height={'100%'}
+                  alt=""
+                  src={img}
+                  placeholderSrc="/small.png"
+                  effect="blur"
+                />
+              </div>
 
               <div>
                 <button

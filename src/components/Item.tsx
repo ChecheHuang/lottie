@@ -11,7 +11,7 @@ const Item: React.FC<ItemProps> = ({ title, children, className }) => {
   return (
     <div
       className={cn(
-        'relative border-[12px] border-primary rounded-3xl sm:w-1/2 w-full sm:h-[30vw] h-min-[300px] p-2 flex flex-col gap-2 ',
+        'relative border-[12px] border-primary rounded-3xl sm:w-3/4 w-full h-[70vh] p-2 flex flex-col gap-2 ',
         className
       )}
     >

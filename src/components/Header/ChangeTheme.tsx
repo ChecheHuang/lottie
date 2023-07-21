@@ -55,7 +55,7 @@ const ChangeTheme: FC<ChangeThemeProps> = ({ changeTheme }) => {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="px-1 py-1 h-[200px] overflow-y-auto scrollbar-thumb-gray-900 scrollbar-track-gray-100 scrollbar-thin ">
+          <div className="px-1 py-1 h-[200px] scroll_y ">
             {daisyTheme.map((theme) => (
               <Menu.Item key={theme}>
                 {({ active }) => (

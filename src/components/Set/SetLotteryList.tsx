@@ -12,14 +12,19 @@ import { LotteryType } from '@/App'
 
 const initPeople = [
   {
-    id: 'c217ec53-47c2-4ced-bee6-b32905d0c309',
-    姓名: '測試2',
+    id: '1',
+    姓名: '黃阿狗',
     次數: 1,
   },
   {
-    id: '449e6eae-4ddd-4942-ac97-2feca9065840',
-    姓名: '測試1',
+    id: '2',
+    姓名: '陳大美',
     次數: 3,
+  },
+  {
+    id: '3',
+    姓名: '陳大美',
+    次數: 5,
   },
 ]
 
@@ -32,13 +37,21 @@ interface PeopleType extends PeopleDefault {
 }
 interface SetLotteryListProps {
   setLotteryList: React.Dispatch<React.SetStateAction<LotteryType[]>>
+  columns: string[]
+  setColumns: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-const SetLotteryList: React.FC<SetLotteryListProps> = ({ setLotteryList }) => {
-  const [columns, setColumns] = useState<string[]>(['姓名', '次數'])
-  const addColumnRef = useRef<HTMLInputElement>(null)
-  const [isSettingComplete, SetIsSettingComplete] = useState(true)
+export type SetLotteryListRef = {
+  columns: string[]
+}
 
+const SetLotteryList: React.FC<SetLotteryListProps> = ({
+  setLotteryList,
+  columns,
+  setColumns,
+}) => {
+  const addColumnRef = useRef<HTMLInputElement>(null)
+  const [isSettingComplete, SetIsSettingComplete] = useState(false)
   const [people, setPeople] = useState<PeopleType[]>(initPeople)
 
   const {

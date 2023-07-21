@@ -53,7 +53,7 @@ const Header: FC<HeaderProps> = ({ setTheme }) => {
           setTitle(e.target.value)
           localStorage.setItem('title', e.target.value)
         }}
-        className="input bg-primary bg-transparent text-center text-base-100 text-5xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  "
+        className="input bg-primary bg-transparent text-center text-base-100 text-5xl absolute_center  "
       />
       <ChangeTheme changeTheme={setTheme} />
     </header>
