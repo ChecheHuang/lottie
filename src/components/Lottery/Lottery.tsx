@@ -8,6 +8,7 @@ import show from '@/assets/images/show.png'
 
 import { usePrevious, useUpdateEffect } from '@/hooks/useHook'
 import { Congratulation, Loading1 } from '../Loading'
+import WinnerList from './WinnerList'
 
 interface LotteryProps {
   prizes: PrizeType[]
@@ -23,26 +24,62 @@ enum Status {
   SUCCESS,
 }
 
+export interface WinnerType extends LotteryType {
+  prize: string
+  prizeImg: string
+}
+
 const Lottery: FC<LotteryProps> = ({
-  prizes,
-  lotteryList,
   lotteryRule,
+  prizes,
   setPrizes,
+  lotteryList,
   setLotteryList,
 }) => {
   const [currentPrizeIndex, setCurrentPrizeIndex] = useState<number>(0)
-  const prevPrizes = usePrevious<PrizeType[]>(prizes)
-  const [winnerList, setWinnerList] = useState<LotteryType[]>([])
-  const prevWinnerList = usePrevious(winnerList)
-  // console.log(lotteryList)
-
+  const [winnerList, setWinnerList] = useState<WinnerType[]>([])
+  const [isMustWin, setIsMustWin] = useState(false)
   const [status, setStatus] = useState<Status>(Status.READY)
-  const rule = useMemo(() => {
-    return lotteryRule['抽獎規則']
-  }, [lotteryRule])
+  const prevLotteryList = usePrevious(lotteryList)
+
+  const filterAction = useMemo(() => {
+    return (winner: LotteryType) => {
+      const filterActions = new Map<string, () => void>([
+        [
+          '一個人只能中獎一次',
+          () => {
+            setLotteryList((list) =>
+              [...list].filter(
+                (item) => JSON.stringify(item) !== JSON.stringify(winner)
+              )
+            )
+          },
+        ],
+
+        [
+          '一次機會即中獎一次',
+          () => {
+            setLotteryList((list) => {
+              const newList = [...list]
+              const winnerFirstIndex = list.findIndex(
+                (item) => JSON.stringify(item) === JSON.stringify(winner)
+              )
+              newList.splice(winnerFirstIndex, 1)
+              return newList
+            })
+          },
+        ],
+      ])
+      if (filterActions.get(lotteryRule['抽獎規則'][0])) {
+        filterActions.get(lotteryRule['抽獎規則'][0])!()
+      }
+    }
+  }, [setLotteryList, lotteryRule])
+
   const showInfo = useMemo(() => {
     return {
       show: lotteryRule['顯示中獎資訊'][0],
+      prize: winnerList[0]?.prize || '',
       winner: winnerList[0]
         ? winnerList[0][lotteryRule['顯示中獎資訊'][0]]
         : '',
@@ -53,29 +90,41 @@ const Lottery: FC<LotteryProps> = ({
     if (prizes[currentPrizeIndex].quantity === 0) {
       return toast.error('該獎項已抽完', { autoClose: 500 })
     }
+    if (lotteryList.length === 0) {
+      return toast.error('抽獎人員已抽完', { autoClose: 500 })
+    }
     setStatus(Status.LOADING)
   }
   const restartLottery = () => {
-    if (!prevPrizes) return
-    setPrizes(() => {
-      const newState = [...prevPrizes]
-      newState[currentPrizeIndex].quantity--
-      return newState
-    })
+    const newPrize = [...prizes]
+    newPrize[currentPrizeIndex].quantity++
+    setPrizes(newPrize)
+    setStatus(Status.LOADING)
   }
   const createWinner = () => {
-    const winner = lotteryList[getRandom(0, lotteryList.length - 1)]
-    console.log(winner)
-    setWinnerList([winner, ...winnerList])
+    const mustWinner = lotteryList.find(
+      (item) => item['獎品'] === prizes[currentPrizeIndex].prize
+    )
+    const winner =
+      isMustWin && mustWinner
+        ? mustWinner
+        : lotteryList[getRandom(0, lotteryList.length - 1)]
+    setWinnerList([
+      {
+        ...winner,
+        prize: prizes[currentPrizeIndex].prize,
+        prizeImg: prizes[currentPrizeIndex].img,
+      },
+      ...winnerList,
+    ])
+    filterAction!(winner)
   }
   useUpdateEffect(() => {
     if (status === Status.SUCCESS) {
       createWinner()
-      setPrizes((prev) => {
-        const newState = [...prev]
-        newState[currentPrizeIndex].quantity--
-        return newState
-      })
+      const newPrize = [...prizes]
+      newPrize[currentPrizeIndex].quantity--
+      setPrizes(newPrize)
     }
   }, [status])
   return (
@@ -126,12 +175,16 @@ const Lottery: FC<LotteryProps> = ({
               </div>
               <div
                 className={cn(
-                  ' flex-1 m-2 overflow-hidden flex items-center justify-center cursor-pointer relative '
-                  // 'bg-blue-300 '
+                  ' flex-1 m-2 overflow-hidden flex items-center justify-center  relative ',
+                  !isMustWin && 'cursor-pointer'
                 )}
               >
                 {status === Status.READY && (
-                  <LazyLoadImage width={'100%'} src={show} />
+                  <LazyLoadImage
+                    onClick={() => setIsMustWin(!isMustWin)}
+                    width={'100%'}
+                    src={show}
+                  />
                 )}
                 {status === Status.LOADING && (
                   <Loading1 onClick={() => setStatus(Status.SUCCESS)} />
@@ -139,14 +192,20 @@ const Lottery: FC<LotteryProps> = ({
                 {status === Status.SUCCESS && (
                   <>
                     <Congratulation className="w-full absolute pointer-events-none  " />
-                    <div className="flex items-center">
+                    <div
+                      onClick={() => setIsMustWin(!isMustWin)}
+                      className="flex items-center justify-center flex-col gap-5  "
+                    >
                       <div className=" h-32">
                         <img src={prizes[currentPrizeIndex].img} alt="" />
                       </div>
-                      <div>
-                        <h1>恭喜</h1>
-                        {showInfo.show}
-                        {showInfo.winner}
+                      <div className="flex flex-col items-center">
+                        <h1 className="text-xl">恭喜</h1>
+                        <div>
+                          {showInfo.show}
+                          {showInfo.winner}
+                        </div>
+                        <div>獲得{showInfo.prize}</div>
                       </div>
                     </div>
                   </>
@@ -155,22 +214,22 @@ const Lottery: FC<LotteryProps> = ({
             </div>
             <div className="flex items-center justify-center gap-20">
               <button
-                onClick={() => startLottery()}
+                onClick={startLottery}
                 className="btn btn-neutral rounded-3xl w-40 text-3xl font-medium text-white"
               >
                 開始抽獎
               </button>
               <button
                 disabled={status !== Status.SUCCESS}
-                onClick={() => {
-                  setPrizes(prevPrizes as PrizeType[])
-                  setWinnerList(prevWinnerList as LotteryType[])
-                  setStatus(Status.LOADING)
-                }}
+                onClick={restartLottery}
                 className="btn btn-warning rounded-3xl w-40 text-3xl font-medium text-white"
               >
                 重新抽
               </button>
+              <WinnerList
+                show={lotteryRule['顯示中獎資訊'][0]}
+                winnerList={winnerList}
+              />
             </div>
           </div>
         </div>

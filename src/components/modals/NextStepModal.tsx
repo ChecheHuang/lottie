@@ -43,7 +43,7 @@ const NextStepModal: React.FC<NextStepModalProps> = ({
                       'w-full rounded-lg py-2.5  font-medium leading-5 text-sm',
                       selected
                         ? 'bg-white shadow text-primary'
-                        : '  opacity-50 hover:bg-white/[0.12] hover:text-primary'
+                        : '  opacity-50 hover:bg-white/[0.12] hover:text-warning'
                     )
                   }
                 >

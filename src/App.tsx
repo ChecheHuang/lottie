@@ -27,13 +27,13 @@ export interface LotteryType extends LotteryDefaultType {
 
 const initPrizes = [
   {
-    id: '62934d0c-2218-488c-9a01-0f5052cff0c0',
+    id: '1',
     prize: '大獎',
-    quantity: 3,
+    quantity: 1,
     img: '/src/assets/images/defaultPrize.jpeg',
   },
   {
-    id: '6b89d654-717a-4940-9de9-f0706aabe414',
+    id: '2',
     prize: '手機',
     quantity: 5,
     img: '/src/assets/images/defaultPrize.jpeg',
