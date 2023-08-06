@@ -42,6 +42,14 @@ const Lottery: FC<LotteryProps> = ({
   const [status, setStatus] = useState<Status>(Status.READY)
   const prevLotteryList = usePrevious(lotteryList)
 
+  const [prevRecord, setPrevRecord] = useState<{
+    prizeIndex: number
+    filterLotteryList: LotteryType[]
+  }>({
+    prizeIndex: 0,
+    filterLotteryList: [],
+  })
+
   const filterAction = useMemo(() => {
     return (winner: LotteryType) => {
       const filterActions = new Map<string, () => void>([
@@ -49,9 +57,14 @@ const Lottery: FC<LotteryProps> = ({
           '一個人只能中獎一次',
           () => {
             setLotteryList((list) =>
-              [...list].filter(
-                (item) => JSON.stringify(item) !== JSON.stringify(winner)
-              )
+              [...list].filter((item) => {
+                if (JSON.stringify(item) !== JSON.stringify(winner)) {
+                  return true
+                } else {
+                  console.log(item)
+                  return false
+                }
+              })
             )
           },
         ],
@@ -96,12 +109,15 @@ const Lottery: FC<LotteryProps> = ({
     setStatus(Status.LOADING)
   }
   const restartLottery = () => {
-    const newPrize = [...prizes]
-    newPrize[currentPrizeIndex].quantity++
-    setPrizes(newPrize)
-    setStatus(Status.LOADING)
+    console.log(prevRecord)
+    setCurrentPrizeIndex(prevRecord.prizeIndex)
+    // const newPrize = [...prizes]
+    // newPrize[currentPrizeIndex].quantity++
+    // setPrizes(newPrize)
+    // setStatus(Status.LOADING)
   }
   const createWinner = () => {
+    setPrevRecord({ ...prevRecord, prizeIndex: currentPrizeIndex })
     const mustWinner = lotteryList.find(
       (item) => item['獎品'] === prizes[currentPrizeIndex].prize
     )
@@ -117,14 +133,16 @@ const Lottery: FC<LotteryProps> = ({
       },
       ...winnerList,
     ])
+    setPrizes((prizes) => {
+      const newPrize = [...prizes]
+      newPrize[currentPrizeIndex].quantity--
+      return newPrize
+    })
     filterAction!(winner)
   }
   useUpdateEffect(() => {
     if (status === Status.SUCCESS) {
       createWinner()
-      const newPrize = [...prizes]
-      newPrize[currentPrizeIndex].quantity--
-      setPrizes(newPrize)
     }
   }, [status])
   return (
