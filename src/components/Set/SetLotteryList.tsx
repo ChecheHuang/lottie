@@ -247,7 +247,10 @@ const SetLotteryList: React.FC<SetLotteryListProps> = ({
               )
             })}
 
-            <button type="submit" className="btn btn-secondary text-dark ">
+            <button
+              type="submit"
+              className="btn btn-secondary text-dark whitespace-nowrap"
+            >
               加入抽獎
             </button>
           </form>
