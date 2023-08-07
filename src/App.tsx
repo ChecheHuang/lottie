@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import { ToastContainer } from 'react-toastify'
 import SetPrize from './components/Set/SetPrize'
-
+import { motion, AnimatePresence } from 'framer-motion'
+import defaultImg from '@/assets/images/defaultPrize.jpeg'
 import Header from './components/Header/Header'
 import NextStepModal from './components/modals/NextStepModal'
 import SetLotteryList from './components/Set/SetLotteryList'
-import { useUpdateEffect } from './hooks/useHook'
 import Lottery from './components/Lottery/Lottery'
 export interface LotteryRuleState {
   顯示中獎資訊: string[]
@@ -30,13 +30,19 @@ const initPrizes = [
     id: '1',
     prize: '大獎',
     quantity: 1,
-    img: '/src/assets/images/defaultPrize.jpeg',
+    img: defaultImg,
   },
   {
     id: '2',
     prize: '手機',
     quantity: 5,
-    img: '/src/assets/images/defaultPrize.jpeg',
+    img: defaultImg,
+  },
+  {
+    id: '3',
+    prize: '測試',
+    quantity: 5,
+    img: defaultImg,
   },
 ]
 enum LotteryState {
@@ -54,79 +60,77 @@ const App: React.FC = () => {
     顯示中獎資訊: columns.slice(0, 1),
     抽獎規則: ['一個人只能中獎一次'],
   })
-  const [openLottery, setOpenLottery] = useState(LotteryState.USE)
+  const [openLottery, setOpenLottery] = useState(LotteryState.SET)
 
   const handleEnterLottery = () => {
     setConfirmOpen(true)
   }
-  useUpdateEffect(() => {
-    if (confirmOpen) return
-    console.log(JSON.stringify(prizes, null, 2))
-    console.log(JSON.stringify(lotteryList, null, 2))
-    console.log(lotteryRule)
-  }, [confirmOpen])
+
   return (
     <>
       <div className="min-h-screen w-screen" data-theme={theme}>
-        <button
-          className="fixed right-0 bg-black z-10"
-          onClick={() => {
-            setOpenLottery(
-              openLottery === LotteryState.SET
-                ? LotteryState.USE
-                : LotteryState.SET
-            )
-          }}
-        >
-          123
-        </button>
         <Header setTheme={setTheme} />
-        <main className="mt-10 flex items-center justify-center flex-col">
-          <div className={openLottery === LotteryState.SET ? '' : 'hidden'}>
-            <div className="flex w-full items-center flex-col md:flex-row  justify-around mt-2 gap-4 px-3 ">
-              <NextStepModal
-                columns={columns}
-                theme={theme}
-                isOpen={confirmOpen}
-                onClose={() => setConfirmOpen(false)}
-                lotteryRule={lotteryRule}
-                setLotteryRule={setLotteryRule}
-              />
-              <SetPrize
-                addPrize={(data: PrizeType) =>
-                  setPrizes((prev) => [data, ...prev])
-                }
-                removePrize={(id: string) =>
-                  setPrizes((prev) =>
-                    [...prev].filter((prize) => prize.id !== id)
-                  )
-                }
-                prizes={prizes}
-              />
-              <SetLotteryList
-                columns={columns}
-                setColumns={setColumns}
-                setLotteryList={setLotteryList}
-              />
-            </div>
-            <div className="w-full flex justify-center mt-3">
-              <button
-                className="btn btn-neutral rounded-3xl w-40 text-3xl font-medium text-white"
-                onClick={handleEnterLottery}
+        <main className="pt-10 flex items-center justify-center flex-col overflow-hidden">
+          <AnimatePresence>
+            {openLottery === LotteryState.SET && (
+              <motion.div
+                exit={{ scale: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
               >
-                進入抽獎
-              </button>
-            </div>
-          </div>
-          <div className={openLottery === LotteryState.USE ? '' : 'hidden'}>
-            <Lottery
-              prizes={prizes}
-              lotteryList={lotteryList}
-              lotteryRule={lotteryRule}
-              setLotteryList={setLotteryList}
-              setPrizes={setPrizes}
-            />
-          </div>
+                <div className="flex w-full items-center flex-col sm:flex-row  justify-around mt-2 sm:gap-4 gap-12 px-3 ">
+                  <NextStepModal
+                    columns={columns}
+                    theme={theme}
+                    isOpen={confirmOpen}
+                    onClose={() => setConfirmOpen(false)}
+                    lotteryRule={lotteryRule}
+                    setLotteryRule={setLotteryRule}
+                    onOpenLottery={() => setOpenLottery(LotteryState.USE)}
+                  />
+                  <SetPrize
+                    addPrize={(data: PrizeType) =>
+                      setPrizes((prev) => [data, ...prev])
+                    }
+                    removePrize={(id: string) =>
+                      setPrizes((prev) =>
+                        [...prev].filter((prize) => prize.id !== id)
+                      )
+                    }
+                    prizes={prizes}
+                  />
+                  <SetLotteryList
+                    columns={columns}
+                    setColumns={setColumns}
+                    setLotteryList={setLotteryList}
+                  />
+                </div>
+                <div className="w-full flex justify-center mt-3">
+                  <button
+                    className="btn btn-neutral rounded-3xl w-40 text-3xl font-medium text-white"
+                    disabled={prizes.length === 0 || lotteryList.length === 0}
+                    onClick={handleEnterLottery}
+                  >
+                    進入抽獎
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          {openLottery === LotteryState.USE && (
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
+              <Lottery
+                prizes={prizes}
+                lotteryList={lotteryList}
+                lotteryRule={lotteryRule}
+                setLotteryList={setLotteryList}
+                setPrizes={setPrizes}
+              />
+            </motion.div>
+          )}
         </main>
       </div>
       <ToastContainer />

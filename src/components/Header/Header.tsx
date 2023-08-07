@@ -2,6 +2,9 @@ import React, { FC, useState } from 'react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import sunnygoLogo from '@/assets/images/logo1.png'
 import ChangeTheme from './ChangeTheme'
+import FullScreenButton from './FullScreenButton/FullScreenButton'
+import RecordButton from './RecordButton/RecordButton'
+import { GiMedallist } from 'react-icons/gi'
 
 interface HeaderProps {
   setTheme: (theme: string) => void
@@ -53,9 +56,20 @@ const Header: FC<HeaderProps> = ({ setTheme }) => {
           setTitle(e.target.value)
           localStorage.setItem('title', e.target.value)
         }}
-        className="input bg-primary bg-transparent text-center text-base-100 text-5xl absolute_center  "
+        className="input bg-primary bg-transparent text-center text-base-100 sm:text-5xl absolute_center hidden sm:block "
       />
-      <ChangeTheme changeTheme={setTheme} />
+      <div className="flex gap-4 items-center ">
+        <label
+          title="顯示中獎名單"
+          htmlFor="drawer"
+          className="drawer-button text-xl text-base-100 cursor-pointer hover:text-secondary"
+        >
+          <GiMedallist />
+        </label>
+        <RecordButton />
+        <FullScreenButton />
+        <ChangeTheme changeTheme={setTheme} />
+      </div>
     </header>
   )
 }

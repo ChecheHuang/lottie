@@ -31,6 +31,10 @@ img {
     @apply overflow-y-auto scrollbar-thumb-gray-900 scrollbar-track-gray-100 scrollbar-thin;
 }
 
+.scroll_x {
+    @apply overflow-x-auto scrollbar-thumb-gray-900 scrollbar-track-gray-100 scrollbar-thin;
+}
+
 .absolute_center {
     @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
 }

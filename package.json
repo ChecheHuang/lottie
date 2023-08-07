@@ -1,6 +1,7 @@
 {
   "name": "static",
   "private": true,
+  "homepage": "https://chechehuang.github.io/static",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --mode development",
@@ -10,11 +11,14 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "prepare": "husky install",
     "cm": "git-cz",
-    "cma": "git add . && git-cz"
+    "cma": "git add . && git-cz",
+    "gh-page": "npm run build && gh-pages -d build"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
     "clsx": "^2.0.0",
+    "framer-motion": "^10.15.0",
+    "gh-pages": "^5.0.0",
     "lottie-react": "^2.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

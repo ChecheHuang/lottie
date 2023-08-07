@@ -83,11 +83,14 @@ const SetPrize: React.FC<SetPrizeProps> = ({
         />
         <label
           htmlFor="imgFile"
-          className="  btn btn-primary font-thin text-white w-full "
+          className="  btn btn-primary font-thin text-white w-full whitespace-nowrap"
         >
           上傳圖片
         </label>
-        <button type="submit" className="btn btn-secondary text-dark">
+        <button
+          type="submit"
+          className="btn btn-secondary text-dark whitespace-nowrap "
+        >
           加入獎項
         </button>
       </form>

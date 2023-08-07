@@ -11,6 +11,7 @@ interface NextStepModalProps {
   lotteryRule: LotteryRuleState
   setLotteryRule: React.Dispatch<React.SetStateAction<LotteryRuleState>>
   columns: string[]
+  onOpenLottery: () => void
 }
 
 const NextStepModal: React.FC<NextStepModalProps> = ({
@@ -20,19 +21,21 @@ const NextStepModal: React.FC<NextStepModalProps> = ({
   lotteryRule,
   setLotteryRule,
   columns,
+  onOpenLottery,
 }) => {
   const categories: LotteryRuleState = {
     顯示中獎資訊: columns,
     抽獎規則: ['一個人只能中獎一次', '一次機會即中獎一次'],
   }
   const handleNextStep = () => {
+    onOpenLottery()
     onClose()
   }
 
   return (
     <Modal theme={theme} isOpen={isOpen} onClose={onClose}>
       <div className="sm:flex sm:items-start">
-        <div className="w-full max-w-md p-4 ">
+        <div className="w-full  p-4 ">
           <Tab.Group>
             <Tab.List className="flex justify-between bg-secondary rounded-md p-3 ">
               {Object.keys(categories).map((category) => (
@@ -93,7 +96,7 @@ const NextStepModal: React.FC<NextStepModalProps> = ({
               })}
             </Tab.Panels>
           </Tab.Group>
-          <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse gap-2">
+          <div className="mt-4 flex flex-row-reverse gap-2">
             <button
               onClick={handleNextStep}
               className="btn btn-primary text-base-100"

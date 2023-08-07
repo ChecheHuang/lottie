@@ -39,12 +39,10 @@ interface ChangeThemeProps {
 }
 const ChangeTheme: FC<ChangeThemeProps> = ({ changeTheme }) => {
   return (
-    <Menu as="div" className="relative inline-block text-left z-50">
-      <div>
-        <Menu.Button>
-          <MdOutlineWbSunny className=" text-2xl text-base-100" />
-        </Menu.Button>
-      </div>
+    <Menu as="div" className="relative inline-block text-left z-50 ml-2 ">
+      <Menu.Button className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <MdOutlineWbSunny className=" text-2xl text-base-100 hover:text-secondary" />
+      </Menu.Button>
       <Transition
         as={Fragment}
         enter="transition ease-out duration-100"

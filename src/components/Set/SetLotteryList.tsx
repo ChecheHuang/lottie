@@ -9,6 +9,7 @@ import { toast } from 'react-toastify'
 import { IoClose } from 'react-icons/io5'
 import Input from '../inputs/Input'
 import { LotteryType } from '@/App'
+import { cn } from '@/lib/utils'
 
 const initPeople = [
   {
@@ -176,16 +177,16 @@ const SetLotteryList: React.FC<SetLotteryListProps> = ({
             ))}
           </div>
           <div className="flex flex-col gap-2 ">
-            <div>
+            <div className="grid grid-cols-10 gap-3">
               <input
                 placeholder="輸入要加入的欄位"
                 type="text"
-                className="input input-secondary "
+                className="input input-secondary col-span-7 "
                 ref={addColumnRef}
               />
               <button
                 onClick={handleAddColumn}
-                className="btn btn-secondary ml-2"
+                className="btn btn-secondary col-span-3 "
               >
                 加入欄位
               </button>
@@ -214,7 +215,10 @@ const SetLotteryList: React.FC<SetLotteryListProps> = ({
           />
           <label
             htmlFor="file"
-            className=" btn btn-neutral absolute text-white -top-8 right-10"
+            className={cn(
+              ' btn btn-neutral absolute text-white sm:-top-8 sm:right-10 ',
+              'btn-sm sm:btn-md -top-6 right-0 '
+            )}
           >
             匯入EXCEL
           </label>

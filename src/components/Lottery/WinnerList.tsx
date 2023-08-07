@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { WinnerType } from './Lottery'
 import * as XLSX from 'xlsx'
+// import { GiMedallist } from 'react-icons/gi'
 
 interface WinnerListProps {
   winnerList: WinnerType[]
@@ -21,13 +22,13 @@ const WinnerList: FC<WinnerListProps> = ({ winnerList, show }) => {
     XLSX.writeFile(wb, '中獎名單.xlsx')
   }
   return (
-    <div className="drawer drawer-end  w-[90px]">
+    <div className="drawer drawer-end absolute ">
       <input id="drawer" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content">
+      {/* <div className="drawer-content">
         <label htmlFor="drawer" className="drawer-button btn btn-primary">
-          中獎名單
+          <GiMedallist />
         </label>
-      </div>
+      </div> */}
       <div className="drawer-side z-50">
         <label htmlFor="drawer" className="drawer-overlay"></label>
 
