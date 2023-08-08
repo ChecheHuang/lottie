@@ -5,7 +5,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { cn, getRandom } from '@/lib/utils'
 import { toast } from 'react-toastify'
 import show from '@/assets/images/show.png'
-
+import { motion } from 'framer-motion'
 import { Congratulation, Loading1 } from '../Loading'
 import WinnerList from './WinnerList'
 
@@ -165,11 +165,11 @@ const Lottery: FC<LotteryProps> = ({
                     className=" rounded-lg opacity-80"
                     src={prize.img}
                   />
-                  <h1 className="absolute_center text-base-100 text-2xl w-full text-center ">
+                  <h1 className="absolute_center  text-slate-200  text-2xl w-full text-center ">
                     {prize.prize}
                     {prize.quantity === 0 && '已抽完'}
                   </h1>
-                  <span className="indicator-item badge badge-neutral text-base-100 text-lg ">
+                  <span className="indicator-item badge text-slate-200  badge-neutral  text-lg ">
                     {prize.quantity}
                   </span>
                 </div>
@@ -218,16 +218,48 @@ const Lottery: FC<LotteryProps> = ({
                       onClick={() => setIsMustWin(!isMustWin)}
                       className="flex items-center justify-center flex-col gap-5  "
                     >
-                      <div className=" h-32">
+                      <motion.div
+                        initial={{
+                          scale: 0,
+                          y: -100,
+                        }}
+                        animate={{
+                          scale: 1,
+                          y: 0,
+                          rotateZ: 720,
+                        }}
+                        transition={{ duration: 0.3 }}
+                        className="h-32 rounded-lg overflow-hidden"
+                      >
                         <img src={prizes[currentPrizeIndex].img} alt="" />
-                      </div>
+                      </motion.div>
                       <div className="flex flex-col items-center">
                         <h1 className="text-xl">恭喜</h1>
-                        <div>
-                          {showInfo.show}
-                          {showInfo.winner}
+                        <div className="grid grid-cols-2 place-items-center ">
+                          <div>{showInfo.show}:</div>
+                          <motion.div
+                            initial={{
+                              y: -130,
+                              x: -35,
+                              backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                              scale: 2,
+                              opacity: 1,
+                              borderRadius: '5px',
+                            }}
+                            animate={{
+                              y: 0,
+                              x: 0,
+                              opacity: [1, 1, 1, 0.2, 0.4, 0.6, 0.8, 1],
+                              scale: 1,
+                            }}
+                            transition={{ duration: 1, delay: 0.5 }}
+                            className="text-2xl z-10"
+                          >
+                            {showInfo.winner}
+                          </motion.div>
+                          <div>獲得:</div>
+                          <div className="text-2xl">{showInfo.prize}</div>
                         </div>
-                        <div>獲得{showInfo.prize}</div>
                       </div>
                     </div>
                   </>
