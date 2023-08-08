@@ -25,25 +25,25 @@ export interface LotteryType extends LotteryDefaultType {
   [key: string]: any
 }
 
-const initPrizes = [
-  {
-    id: '1',
-    prize: '大獎',
-    quantity: 1,
-    img: defaultImg,
-  },
-  {
-    id: '2',
-    prize: '手機',
-    quantity: 5,
-    img: defaultImg,
-  },
-  {
-    id: '3',
-    prize: '測試',
-    quantity: 5,
-    img: defaultImg,
-  },
+const initPrizes: PrizeType[] = [
+  // {
+  //   id: '1',
+  //   prize: '大獎',
+  //   quantity: 1,
+  //   img: defaultImg,
+  // },
+  // {
+  //   id: '2',
+  //   prize: '手機',
+  //   quantity: 5,
+  //   img: defaultImg,
+  // },
+  // {
+  //   id: '3',
+  //   prize: '測試',
+  //   quantity: 5,
+  //   img: defaultImg,
+  // },
 ]
 enum LotteryState {
   SET,

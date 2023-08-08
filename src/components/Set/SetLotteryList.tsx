@@ -11,22 +11,22 @@ import Input from '../inputs/Input'
 import { LotteryType } from '@/App'
 import { cn } from '@/lib/utils'
 
-const initPeople = [
-  {
-    id: '1',
-    姓名: '黃阿狗',
-    次數: 1,
-  },
-  {
-    id: '2',
-    姓名: '連成公',
-    次數: 3,
-  },
-  {
-    id: '3',
-    姓名: '陳大美',
-    次數: 5,
-  },
+const initPeople: PeopleType[] = [
+  // {
+  //   id: '1',
+  //   姓名: '黃阿狗',
+  //   次數: 1,
+  // },
+  // {
+  //   id: '2',
+  //   姓名: '連成公',
+  //   次數: 3,
+  // },
+  // {
+  //   id: '3',
+  //   姓名: '陳大美',
+  //   次數: 5,
+  // },
 ]
 
 interface PeopleDefault {
@@ -199,8 +199,10 @@ const SetLotteryList: React.FC<SetLotteryListProps> = ({
                 return
               }
               SetIsSettingComplete(true)
+              localStorage.setItem('columns', JSON.stringify(columns))
             }}
             className="btn btn-primary"
+            disabled={columns.length === 1}
           >
             設定完成
           </button>
