@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   base: './',
   build: {
-    outDir: 'build',
+    outDir: 'lottery',
     chunkSizeWarningLimit: 1500,
     rollupOptions: {
       output: {

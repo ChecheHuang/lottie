@@ -12,7 +12,7 @@
     "prepare": "husky install",
     "cm": "git-cz",
     "cma": "git add . && git-cz",
-    "gh-page": "npm run build && gh-pages -d build"
+    "gh-page": "npm run build && gh-pages -d lottery"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
