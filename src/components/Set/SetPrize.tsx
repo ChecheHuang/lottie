@@ -8,6 +8,7 @@ import Item from '@/components/Item'
 import { toast } from 'react-toastify'
 import Input from '@/components/inputs/Input'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import smallImg from '@/assets/images/small.png'
 
 interface SetPrizeProps {
   addPrize: (data: PrizeType) => void
@@ -108,7 +109,7 @@ const SetPrize: React.FC<SetPrizeProps> = ({
                   height={'100%'}
                   alt=""
                   src={img}
-                  placeholderSrc="/small.png"
+                  placeholderSrc={smallImg}
                   effect="blur"
                 />
               </div>

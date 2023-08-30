@@ -149,7 +149,7 @@ const Lottery: FC<LotteryProps> = ({
     <div className="w-full px-16">
       <Item className="sm:w-full sm:h-[80vh] h-auto " title="抽獎區">
         <div className="flex h-full flex-col sm:flex-row">
-          <div className="  sm:h-full  w-full sm:w-1/5 flex sm:flex-col items-center  flex-nowrap sm:scroll_y gap-2 p-4 ">
+          <div className="  sm:h-full  w-full sm:w-1/5 flex sm:flex-col items-center  flex-nowrap  gap-2 p-4  scroll_y">
             {prizes.map((prize, index) => {
               return (
                 <div
@@ -165,7 +165,7 @@ const Lottery: FC<LotteryProps> = ({
                     className=" rounded-lg opacity-80"
                     src={prize.img}
                   />
-                  <h1 className="absolute_center  text-slate-200  text-2xl w-full text-center ">
+                  <h1 className="absolute_center truncate  text-slate-200  text-2xl w-full text-center ">
                     {prize.prize}
                     {prize.quantity === 0 && '已抽完'}
                   </h1>
