@@ -9,6 +9,7 @@ import { toast } from 'react-toastify'
 import Input from '@/components/inputs/Input'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import smallImg from '@/assets/images/small.png'
+import { cn } from '@/lib/utils'
 
 interface SetPrizeProps {
   addPrize: (data: PrizeType) => void
@@ -102,7 +103,14 @@ const SetPrize: React.FC<SetPrizeProps> = ({
               key={id}
               className="  grid grid-cols-4 grid-rows-[100px]  gap-4 place-items-center"
             >
-              <div>{prize}</div>
+              <div
+                className={cn(
+                  ' w-full   text-center overflow-hidden text-ellipsis cursor-pointer ',
+                  ' hover:text-secondary hover:break-words transition duration-500 ease-in-out'
+                )}
+              >
+                {prize}
+              </div>
               <div>{quantity}</div>
               <div className="p-2 h-full overflow-hidden">
                 <LazyLoadImage

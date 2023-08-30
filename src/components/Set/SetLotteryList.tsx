@@ -264,10 +264,18 @@ const SetLotteryList: React.FC<SetLotteryListProps> = ({
                   style={{
                     gridTemplateColumns: `repeat(${columns.length + 1}, 1fr)`,
                   }}
-                  className="  grid  grid-rows-[40px]  gap-4 place-items-center"
+                  className="  grid gap-4 place-items-center"
                 >
                   {columns.map((column) => (
-                    <div key={column}>{item[column]}</div>
+                    <div
+                      className={cn(
+                        ' w-full h-auto  text-center overflow-hidden text-ellipsis cursor-pointer ',
+                        ' hover:text-secondary hover:break-words transition duration-500 ease-in-out'
+                      )}
+                      key={column}
+                    >
+                      {item[column]}
+                    </div>
                   ))}
                   <div>
                     <button

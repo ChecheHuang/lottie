@@ -7,20 +7,27 @@ import { toast } from 'react-toastify'
 const RecordButton: FC = () => {
   const [stream, setStream] = useState<MediaStream | null>(null)
   const [recording, setRecording] = useState(false)
+
+  const checkMicrophoneAccess = async () => {
+    try {
+      return await navigator.mediaDevices.getUserMedia({ audio: true })
+    } catch (error) {
+      return false
+    }
+  }
   const startRecording = async () => {
     try {
       const screenStream = await navigator.mediaDevices.getDisplayMedia({
         video: true,
       })
 
-      const audioStream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-      })
+      const audioStream = await checkMicrophoneAccess()
 
-      const mediaStream = new MediaStream([
-        ...screenStream.getTracks(),
-        ...audioStream.getTracks(),
-      ])
+      const mediaStream = new MediaStream(
+        audioStream
+          ? [...screenStream.getTracks(), ...audioStream.getTracks()]
+          : screenStream.getTracks()
+      )
 
       const mediaRecorder = new MediaRecorder(mediaStream)
 

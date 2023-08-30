@@ -167,7 +167,12 @@ const Lottery: FC<LotteryProps> = ({
                   />
                   <h1 className="absolute_center truncate  text-slate-200  text-2xl w-full text-center ">
                     {prize.prize}
-                    {prize.quantity === 0 && '已抽完'}
+                    {prize.quantity === 0 && (
+                      <>
+                        <br />
+                        <div>已抽完</div>
+                      </>
+                    )}
                   </h1>
                   <span className="indicator-item badge text-slate-200  badge-neutral  text-lg ">
                     {prize.quantity}
@@ -253,7 +258,7 @@ const Lottery: FC<LotteryProps> = ({
                               scale: 1,
                             }}
                             transition={{ duration: 1, delay: 0.5 }}
-                            className="text-2xl z-10"
+                            className="text-2xl z-10 w-full truncate"
                           >
                             {showInfo.winner}
                           </motion.div>

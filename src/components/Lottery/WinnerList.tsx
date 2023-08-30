@@ -37,14 +37,17 @@ const WinnerList: FC<WinnerListProps> = ({ winnerList, show }) => {
             <label className="cursor-pointer" htmlFor="drawer">
               <AiOutlineClose />
             </label>
-            <button onClick={handleOnExport} className="btn btn-sm btn-primary">
+            <button
+              onClick={handleOnExport}
+              className="btn btn-sm btn-primary mr-4"
+            >
               匯出
             </button>
           </div>
           <div key="contain" className="flex-1 scroll_y">
             {winnerList.map((winner) => {
               return (
-                <li key={winner.id}>
+                <li className=" w-80 scroll_y " key={winner.id}>
                   <div>
                     <img className="h-[50px]" src={winner.prizeImg} alt="" />
                     <div> {winner.prize}</div>
