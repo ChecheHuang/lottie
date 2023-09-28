@@ -161,7 +161,8 @@ const Lottery: FC<LotteryProps> = ({
                     prize.quantity === 0 && 'pointer-events-none'
                   )}
                 >
-                  <LazyLoadImage
+                  <img
+                    alt=""
                     className=" rounded-lg opacity-80"
                     src={prize.img}
                   />
@@ -234,9 +235,13 @@ const Lottery: FC<LotteryProps> = ({
                           rotateZ: 720,
                         }}
                         transition={{ duration: 0.3 }}
-                        className="h-32 rounded-lg overflow-hidden"
+                        className="h-32 rounded-lg overflow-hidden "
                       >
-                        <img src={prizes[currentPrizeIndex].img} alt="" />
+                        <img
+                          className="object-cover h-full w-full"
+                          src={prizes[currentPrizeIndex].img}
+                          alt=""
+                        />
                       </motion.div>
                       <div className="flex flex-col items-center">
                         <h1 className="text-xl">恭喜</h1>
