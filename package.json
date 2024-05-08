@@ -1,7 +1,7 @@
 {
   "name": "static",
   "private": true,
-  "homepage": "https://chechehuang.github.io/static",
+  "homepage": "https://chechehuang.github.io/lottie",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --mode development",
